@@ -23,6 +23,8 @@ public class Stock implements GoodsMethods {
     private static final String USER = "eshopuser";
     private static final String PASSWORD = "Test1234";
 
+    private Integer id;
+    private BigDecimal newPrice;
     private Item item;
     private List<Item>items = new ArrayList<>();
 
@@ -30,11 +32,13 @@ public class Stock implements GoodsMethods {
         Connection dataBaseConnection = DriverManager.getConnection(
                 URL, USER, PASSWORD);
 
-
         dataBaseConnection.close();
+    }
 
     @Override
-    public Item loadItemById(Integer id) {
+    public Item loadItemById(Integer id) throws SQLException {
+        Connection dataBaseConnection = DriverManager.getConnection(
+                URL, USER, PASSWORD);
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(LOAD_ITEM_BY_ID);
 
             preparedStatement.setString(1, item.getPartNo());
@@ -49,7 +53,9 @@ public class Stock implements GoodsMethods {
     }
 
     @Override
-    public void deleteAllOutOfStockItems() {
+    public void deleteAllOutOfStockItems() throws SQLException {
+        Connection dataBaseConnection = DriverManager.getConnection(
+                URL, USER, PASSWORD);
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(
                 DELETE_ALL_ITEMS_WHICH_ARE_NOT_IN_STOCK);
 
@@ -59,16 +65,20 @@ public class Stock implements GoodsMethods {
     }
 
     @Override
-    public List<Item> loadAllAvailableItems() {
+    public List<Item> loadAllAvailableItems() throws SQLException {
+        Connection dataBaseConnection = DriverManager.getConnection(
+                URL, USER, PASSWORD);
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(LOAD_ALL_AVAILABLE_ITEMS);
 
             items.add(item);
 
-            preparedStatement.executeUpdate();
+            return items;
     }
 
     @Override
-    public void saveItem(Item item) {
+    public void saveItem(Item item) throws SQLException{
+        Connection dataBaseConnection = DriverManager.getConnection(
+                URL, USER, PASSWORD);
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(SAVE_ITEMS);
             preparedStatement.setString(1, item.getPartNo());
             preparedStatement.setString(2, item.getSerialNo());
@@ -81,7 +91,10 @@ public class Stock implements GoodsMethods {
     }
 
     @Override
-    public void updatePrice(Integer id, BigDecimal newPrice) {
+    public void updatePrice(Integer id, BigDecimal newPrice) throws SQLException{
+
+        Connection dataBaseConnection = DriverManager.getConnection(
+                URL, USER, PASSWORD);
 
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(SAVE_ITEMS);
 
@@ -90,5 +103,5 @@ public class Stock implements GoodsMethods {
 
     }
 
-}
+
 }
