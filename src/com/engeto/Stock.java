@@ -45,9 +45,7 @@ public class Stock implements GoodsMethods {
     @Override
     public Item loadItemById(Integer id) throws SQLException {
 
-        for (Item i:items) {
 
-        }
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(LOAD_ITEM_BY_ID);
 
             item = new Item();
@@ -61,8 +59,8 @@ public class Stock implements GoodsMethods {
 
             preparedStatement.executeUpdate();
 
+        dataBaseConnection.close();
             return item;
-
     }
 
     @Override
@@ -72,7 +70,7 @@ public class Stock implements GoodsMethods {
                 DELETE_ALL_ITEMS_WHICH_ARE_NOT_IN_STOCK);
 
         preparedStatement.executeUpdate();
-
+        dataBaseConnection.close();
 
     }
 //todo dodać dBC.close i commit, load avalible items jest null hmmm...
@@ -82,7 +80,7 @@ public class Stock implements GoodsMethods {
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(LOAD_ALL_AVAILABLE_ITEMS);
 
             items.add(item);
-
+            dataBaseConnection.close();
             return items;
     }
 
@@ -98,6 +96,7 @@ public class Stock implements GoodsMethods {
             preparedStatement.setBigDecimal(6, item.getPrice());
 
         preparedStatement.executeUpdate();
+        dataBaseConnection.close();
     }
 
     @Override
@@ -107,7 +106,7 @@ public class Stock implements GoodsMethods {
 
 
         preparedStatement.executeUpdate();
-
+        dataBaseConnection.close();
     }
 
 
