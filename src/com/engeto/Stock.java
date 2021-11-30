@@ -26,8 +26,8 @@ public class Stock implements GoodsMethods {
     private static final String USER = "eshopuser";
     private static final String PASSWORD = "Test1234";
 
-    private Item item;
-    private final List<Item>items = new ArrayList<>();
+    private static Item item;
+    private static final List<Item>items = new ArrayList<>();
 
     Connection dataBaseConnection ;
     public Stock (Connection dataBaseConnection) throws SQLException {
@@ -44,11 +44,10 @@ public class Stock implements GoodsMethods {
 
     @Override
     public Item loadItemById(Integer id) throws SQLException {
-
+            item = new Item();
 
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(LOAD_ITEM_BY_ID);
 
-            item = new Item();
 
             preparedStatement.setString(1, item.getPartNo());
             preparedStatement.setString(2, item.getSerialNo());
