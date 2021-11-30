@@ -45,7 +45,12 @@ public class Stock implements GoodsMethods {
     @Override
     public Item loadItemById(Integer id) throws SQLException {
 
+        for (Item i:items) {
+
+        }
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(LOAD_ITEM_BY_ID);
+
+            item = new Item();
 
             preparedStatement.setString(1, item.getPartNo());
             preparedStatement.setString(2, item.getSerialNo());
@@ -70,7 +75,7 @@ public class Stock implements GoodsMethods {
 
 
     }
-
+//todo dodać dBC.close i commit, load avalible items jest null hmmm...
     @Override
     public List<Item> loadAllAvailableItems() throws SQLException {
 
