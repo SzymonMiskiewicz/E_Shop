@@ -8,6 +8,13 @@ import java.util.List;
 public class Stock implements GoodsMethods {
 
     private static Integer id;
+    private static Item item;
+    private static  List<Item>items = new ArrayList<>();
+    private static BigDecimal newPrice;
+    private static final String URL = "jdbc:mysql://localhost:3306/eshop";
+    private static final String USER = "eshopuser";
+    private static final String PASSWORD = "Test1234";
+
     private static final String LOAD_ITEM_BY_ID = "SELECT * FROM item WHERE id = " + id;
 //            ("partNo, serialNo, name, description, numberInStock, price) VALUES (?,?,?,?,?,?)");
 
@@ -19,16 +26,8 @@ public class Stock implements GoodsMethods {
             "INSERT INTO item (partNo, serialNo, name, description, numberInStock, price) VALUES (?,?,?,?,?,?)";
 
 
-    private static BigDecimal newPrice;
     private static final String UPDATE_PRICE = "UPDATE item SET price = "+ newPrice + "WHERE id = "+id;
-
-    private static final String URL = "jdbc:mysql://localhost:3306/eshop";
-    private static final String USER = "eshopuser";
-    private static final String PASSWORD = "Test1234";
-
-    private static Item item;
-    private static final List<Item>items = new ArrayList<>();
-
+    
     Connection dataBaseConnection ;
     public Stock (Connection dataBaseConnection) throws SQLException {
         this.dataBaseConnection = DriverManager.getConnection(
@@ -40,6 +39,10 @@ public class Stock implements GoodsMethods {
         Connection dataBaseConnection = DriverManager.getConnection(
                 URL, USER, PASSWORD);
         dataBaseConnection.close();
+    }
+
+    public static void setId(Integer id) {
+        Stock.id = id;
     }
 
     @Override
