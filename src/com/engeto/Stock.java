@@ -15,7 +15,7 @@ public class Stock implements GoodsMethods {
     private static final String USER = "eshopuser";
     private static final String PASSWORD = "Test1234";
 
-    private static final String LOAD_ITEM_BY_ID = "SELECT * FROM item WHERE id = " + id;
+    private static final String LOAD_ITEM_BY_ID = "SELECT * FROM item WHERE id = ?";
 //            ("partNo, serialNo, name, description, numberInStock, price) VALUES (?,?,?,?,?,?)");
 
     private static final String DELETE_ALL_ITEMS_WHICH_ARE_NOT_IN_STOCK = "DELETE FROM item WHERE numberInStock ="+ 0;
@@ -27,7 +27,7 @@ public class Stock implements GoodsMethods {
 
 
     private static final String UPDATE_PRICE = "UPDATE item SET price = "+ newPrice + "WHERE id = "+id;
-    
+
     Connection dataBaseConnection ;
     public Stock (Connection dataBaseConnection) throws SQLException {
         this.dataBaseConnection = DriverManager.getConnection(
@@ -52,12 +52,13 @@ public class Stock implements GoodsMethods {
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(LOAD_ITEM_BY_ID);
 
 
-            preparedStatement.setString(1, item.getPartNo());
-            preparedStatement.setString(2, item.getSerialNo());
-            preparedStatement.setString(3, item.getName());
-            preparedStatement.setString(4, item.getDescription());
-            preparedStatement.setInt(5, item.getNumberInStock());
-            preparedStatement.setBigDecimal(6, item.getPrice());
+            preparedStatement.setInt(1, item.getId());
+            preparedStatement.setString(2, item.getPartNo());
+            preparedStatement.setString(3, item.getSerialNo());
+            preparedStatement.setString(4, item.getName());
+            preparedStatement.setString(5, item.getDescription());
+            preparedStatement.setInt(6, item.getNumberInStock());
+            preparedStatement.setBigDecimal(7, item.getPrice());
 
             preparedStatement.executeUpdate();
 
