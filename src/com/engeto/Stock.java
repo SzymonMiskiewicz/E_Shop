@@ -48,9 +48,9 @@ public class Stock implements GoodsMethods {
     @Override
     public Item loadItemById(Integer id) throws SQLException {
             item = new Item();
-
+        this.dataBaseConnection = DriverManager.getConnection(
+                URL, USER, PASSWORD);
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(LOAD_ITEM_BY_ID);
-
 
             preparedStatement.setInt(1, item.getId());
             preparedStatement.setString(2, item.getPartNo());
