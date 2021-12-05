@@ -29,11 +29,7 @@ public class Stock implements GoodsMethods {
     private static final String UPDATE_PRICE = "UPDATE item SET price = "+ newPrice + "WHERE id = "+id;
 
     Connection dataBaseConnection ;
-    public Stock (Connection dataBaseConnection) throws SQLException {
-        this.dataBaseConnection = DriverManager.getConnection(
-                URL, USER, PASSWORD);
-        dataBaseConnection.close();
-    }
+
 
     public Stock() throws SQLException {
         Connection dataBaseConnection = DriverManager.getConnection(
@@ -47,10 +43,10 @@ public class Stock implements GoodsMethods {
 
     @Override
     public Item loadItemById(Integer id) throws SQLException {
-            item = new Item();
         this.dataBaseConnection = DriverManager.getConnection(
                 URL, USER, PASSWORD);
         PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(LOAD_ITEM_BY_ID);
+            item = new Item();
 
             preparedStatement.setInt(1, item.getId());
             preparedStatement.setString(2, item.getPartNo());
@@ -76,7 +72,7 @@ public class Stock implements GoodsMethods {
         dataBaseConnection.close();
 
     }
-//todo dodać dBC.close i commit, load avalible items jest null hmmm...
+
     @Override
     public List<Item> loadAllAvailableItems() throws SQLException {
 
