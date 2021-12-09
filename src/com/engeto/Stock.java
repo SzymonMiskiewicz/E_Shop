@@ -20,7 +20,7 @@ public class Stock implements GoodsMethods {
 
     private static final String DELETE_ALL_ITEMS_WHICH_ARE_NOT_IN_STOCK = "DELETE FROM item WHERE numberInStock ="+ 0;
 
-    private static final String LOAD_ALL_AVAILABLE_ITEMS = "SELECT * FROM List<Item> WHERE numberInStock > 1";
+    private static final String LOAD_ALL_AVAILABLE_ITEMS = "SELECT * FROM item WHERE numberInStock > 1";
 
     private static final String SAVE_ITEMS =
             "INSERT INTO item (partNo, serialNo, name, description, numberInStock, price) VALUES (?,?,?,?,?,?)";
@@ -32,34 +32,32 @@ public class Stock implements GoodsMethods {
 
 
     public Stock() throws SQLException {
-        Connection dataBaseConnection = DriverManager.getConnection(
-                URL, USER, PASSWORD);
-        dataBaseConnection.close();
+        this.dataBaseConnection = DriverManager.getConnection(URL, USER, PASSWORD);
+
     }
 
-    public static void setId(Integer id) {
-        Stock.id = id;
-    }
+    public static void setId(Integer id) {Stock.id = id;}
 
     @Override
     public Item loadItemById(Integer id) throws SQLException {
-        this.dataBaseConnection = DriverManager.getConnection(
-                URL, USER, PASSWORD);
-        PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(LOAD_ITEM_BY_ID);
+        PreparedStatement preparedStatement=
+        dataBaseConnection.prepareStatement(LOAD_ITEM_BY_ID);
+            preparedStatement.setInt(1,id);
+        ResultSet resultset = preparedStatement.executeQuery();
+        while (resultset.next()) {
+
             item = new Item();
+            item.setId(resultset.getInt("id"));
+            item.setPartNo(resultset.getString("partNo"));
+            item.setSerialNo(resultset.getString("serialNo"));
+            item.setName(resultset.getString("name"));
+            item.setDescription(resultset.getString("description"));
+            item.setNumberInStock(resultset.getInt("numberInStock"));
+            item.setPrice(resultset.getBigDecimal("price"));
 
-            preparedStatement.setInt(1, item.getId());
-            preparedStatement.setString(2, item.getPartNo());
-            preparedStatement.setString(3, item.getSerialNo());
-            preparedStatement.setString(4, item.getName());
-            preparedStatement.setString(5, item.getDescription());
-            preparedStatement.setInt(6, item.getNumberInStock());
-            preparedStatement.setBigDecimal(7, item.getPrice());
+        }
 
-            preparedStatement.executeUpdate();
-
-        dataBaseConnection.close();
-            return item;
+        return item;
     }
 
     @Override
