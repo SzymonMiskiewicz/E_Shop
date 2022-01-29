@@ -1,6 +1,7 @@
 package com.engeto;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Main {
@@ -35,6 +36,7 @@ public class Main {
         // update price in DB
         stock.updatePrice(4,BigDecimal.valueOf(22.50));
 
+         stock.dataBaseConnection.close();
 
 
     }
