@@ -27,7 +27,7 @@ public class Stock implements GoodsMethods {
             "INSERT INTO item (partNo, serialNo, name, description, numberInStock, price) VALUES (?,?,?,?,?,?)";
 
 
-    private static final String UPDATE_PRICE = "UPDATE item SET price = "+ newPrice + "WHERE id = "+id;
+    private static final String UPDATE_PRICE = "UPDATE item SET price = ?"+ " " + "WHERE id = ?"; //+ id;
 
     Connection dataBaseConnection ;
 
@@ -128,11 +128,11 @@ public class Stock implements GoodsMethods {
     public void updatePrice(Integer id, BigDecimal newPrice) {
 
         try(
-                PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(SAVE_ITEMS)) {
+                PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(UPDATE_PRICE)) {
 //to dodane
             preparedStatement.setInt(1, id);
             preparedStatement.setBigDecimal(2, new BigDecimal(String.valueOf(newPrice)));
-
+            
             preparedStatement.executeUpdate();
 
         }catch (SQLException e){
