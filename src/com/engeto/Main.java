@@ -8,20 +8,23 @@ public class Main {
 
 
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args)  {
 
         Stock stock = new Stock();
 
         //loads item by id
         System.out.println(stock.loadItemById(2));
+        // end region
 
         // delete items which are not in stock
         stock.deleteAllOutOfStockItems();
+        //end region
 
         // load all available items
         for (Item item: stock.loadAllAvailableItems()) {
             System.out.println(item);
         }
+        //end region
 
         //add new items
         Item printer = new Item(
@@ -32,11 +35,17 @@ public class Main {
                 "USB cable type C",6, BigDecimal.valueOf(11.50));
         stock.saveItem(printer);
         stock.saveItem(usbCable);
+        //end region
 
         // update price in DB
         stock.updatePrice(4,BigDecimal.valueOf(22.50));
+        //end region
 
-         stock.dataBaseConnection.close();
+        try {
+            stock.dataBaseConnection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
     }

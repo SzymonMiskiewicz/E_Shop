@@ -31,8 +31,12 @@ public class Stock implements GoodsMethods {
 
     Connection dataBaseConnection ;
 
-    public Stock() throws SQLException {
-        this.dataBaseConnection = DriverManager.getConnection(URL, USER, PASSWORD);
+    public Stock()  {
+        try {
+            this.dataBaseConnection = DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
