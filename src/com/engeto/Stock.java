@@ -10,7 +10,7 @@ public class Stock implements GoodsMethods {
     private static Integer id;
     private static Item item;
     private static  List<Item>items = new ArrayList<>();
-    private static BigDecimal newPrice;
+    private static BigDecimal newPrice ;
     private static final String URL = "jdbc:mysql://localhost:3306/eshop";
     private static final String USER = "eshopuser";
     private static final String PASSWORD = "Test1234";
@@ -125,6 +125,9 @@ public class Stock implements GoodsMethods {
 
         try(
                 PreparedStatement preparedStatement = dataBaseConnection.prepareStatement(SAVE_ITEMS)) {
+//to dodane
+            preparedStatement.setInt(1, id);
+            preparedStatement.setBigDecimal(2, new BigDecimal(String.valueOf(newPrice)));
 
             preparedStatement.executeUpdate();
 
